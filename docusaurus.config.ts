@@ -8,14 +8,14 @@ const config: Config = {
   favicon: "img/favicon.png",
 
   // Set the production url of your site here
-  url: "https://dataloaf.io",
+  url: "https://data-loaf.com",
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: "/",
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: "facebook", // Usually your GitHub org/user name.
+  organizationName: "capstone2401", // Usually your GitHub org/user name.
   projectName: "dataloaf", // Usually your repo name.
 
   onBrokenLinks: "throw",
@@ -68,90 +68,96 @@ const config: Config = {
     },
   ],
 
-  themeConfig: {
+  themeConfig:
     // Replace with your project's social card
-    image: "img/docusaurus-social-card.jpg",
-    navbar: {
-      title: "DataLoaf",
-      logo: {
-        alt: "My Site Logo",
-        src: "img/logo-image.png",
+    {
+      image: "img/docusaurus-social-card.jpg",
+      navbar: {
+        title: "DataLoaf",
+        logo: {
+          alt: "My Site Logo",
+          src: "img/logo-image.png",
+        },
+        items: [
+          {
+            position: "right",
+            label: "Case Study",
+            href: "/docs/category/case-study",
+          },
+
+          {
+            type: "doc",
+            docId: "docs",
+            position: "right",
+            label: "Docs",
+          },
+          {
+            href: "/#team",
+            label: "Team",
+            position: "right",
+          },
+          {
+            href: "https://github.com/capstone2401",
+            label: "GitHub",
+            position: "right",
+          },
+        ],
       },
-      items: [
-        {
-          type: "doc",
-          docId: "case-study",
-          position: "right",
-          label: "Case Study",
-        },
-        {
-          type: "doc",
-          docId: "docs",
-          position: "right",
-          label: "Docs",
-        },
-        {
-          href: "/#team",
-          label: "Team",
-          position: "right",
-        },
-        {
-          href: "https://github.com/capstone2401",
-          label: "GitHub",
-          position: "right",
-        },
-      ],
-    },
-    footer: {
-      style: "dark",
-      links: [
-        {
-          title: "Docs",
-          items: [
-            {
-              label: "Tutorial",
-              to: "/docs/intro",
-            },
-          ],
-        },
-        {
-          title: "Community",
-          items: [
-            {
-              label: "Stack Overflow",
-              href: "https://stackoverflow.com/questions/tagged/docusaurus",
-            },
-            {
-              label: "Discord",
-              href: "https://discordapp.com/invite/docusaurus",
-            },
-            {
-              label: "Twitter",
-              href: "https://twitter.com/docusaurus",
-            },
-          ],
-        },
-        {
-          title: "More",
-          items: [
-            {
-              label: "Blog",
-              to: "/blog",
-            },
-            {
-              label: "GitHub",
-              href: "https://github.com/facebook/docusaurus",
-            },
-          ],
-        },
-      ],
-      copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
-    },
-    prism: {
-      theme: prismThemes.github,
-      darkTheme: prismThemes.dracula,
-    },
-  } satisfies Preset.ThemeConfig,
+      footer: {
+        style: "light",
+        links: [
+          {
+            title: "Docs",
+            items: [
+              {
+                label: "Getting Started",
+                to: "/docs/intro",
+              },
+            ],
+          },
+          {
+            title: "Community",
+            items: [
+              {
+                label: "Stack Overflow",
+                href: "#",
+              },
+              {
+                label: "Discord",
+                href: "#",
+              },
+              {
+                label: "Twitter",
+                href: "#",
+              },
+            ],
+          },
+          {
+            title: "More",
+            items: [
+              {
+                label: "Blog",
+                to: "/blog",
+              },
+              {
+                label: "GitHub",
+                href: "https://github.com/capstone2401",
+              },
+            ],
+          },
+        ],
+        copyright: `Copyright © ${new Date().getFullYear()} DataLoaf`,
+      },
+      prism: {
+        theme: prismThemes.github,
+        darkTheme: prismThemes.dracula,
+      },
+
+      tableOfContents: {
+        minHeadingLevel: 2,
+        maxHeadingLevel: 3,
+      },
+    } satisfies Preset.ThemeConfig,
 };
 
 export default config;

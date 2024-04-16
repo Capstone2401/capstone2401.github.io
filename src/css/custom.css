@@ -5,6 +5,11 @@
  */
 
 /* You can override the default Infima variables here. */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
   --ifm-color-primary: #ceb16e;
   --ifm-color-primary-dark:  #F0B96E ;
@@ -30,6 +35,82 @@
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+.markdown {
+  max-width: 900px;
+  margin: 0 auto;
+  font-size: 18px;
+  line-height: 32px;
+}
+
+ul {
+  list-style: disc;
+}
+
+ol {
+  list-style: decimal;
+}
+
+ul, ol {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  padding-left: 2rem;
+}
+
+/* Style list items */
+li {
+  margin-bottom: 0.25rem;
+}
+
+/* Style nested lists */
+ul ul, ul ol, ol ul, ol ol {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+article {
+  margin-top: px;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+figcaption {
+  font-size: 16px;
+  color: gray;
+  text-align: center;
+  line-height: 1.75rem;
+}
+
+figure {
+  margin: 0;
+  margin-bottom: 16px;
+}
+
+h1 {
+  font-weight: 600;
+  letter-spacing: -1px;
+  margin-top: 16px;
+  font-size: 44px;
+  margin-bottom: 12px !important;
+}
+
+h2 {
+  font-weight: 600;
+  letter-spacing: -1px;
+  font-size: 32px;
+  margin-bottom: 10px !important;
+}
+
+h3 {
+  font-size: 24px;
+  letter-spacing: -0.5px;
+  margin-bottom: 10px !important;
+  line-height: 2.2rem;
+  font-weight: 600;
+}
+
+h4 {
+  font-size: 20px;
+  margin-bottom: 8px !important;
+  font-weight: 600;
+}
+
