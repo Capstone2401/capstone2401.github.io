@@ -4,7 +4,7 @@ import type * as Preset from "@docusaurus/preset-classic";
 
 const config: Config = {
   title: "DataLoaf",
-  tagline: "A self hosted product analytics platform.",
+  tagline: "A self hosted product analytics platform for developers.",
   favicon: "img/favicon.png",
 
   // Set the production url of your site here
@@ -55,7 +55,7 @@ const config: Config = {
   ],
 
   plugins: [
-    async function myPlugin(context, options) {
+    async function taildwindPlugin(context, options) {
       return {
         name: "docusaurus-tailwindcss",
         configurePostCss(postcssOptions) {
@@ -96,7 +96,7 @@ const config: Config = {
           position: "right",
         },
         {
-          href: "https://github.com/edamame-load-test",
+          href: "https://github.com/capstone2401",
           label: "GitHub",
           position: "right",
         },
