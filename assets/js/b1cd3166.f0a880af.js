@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkdataloaf=self.webpackChunkdataloaf||[]).push([[5945],{5730:t=>{t.exports=JSON.parse('{"title":"Case Study","slug":"/category/case-study","permalink":"/docs/category/case-study","navigation":{"next":{"title":"Introduction","permalink":"/docs/case-study/intro"}}}')}}]);
