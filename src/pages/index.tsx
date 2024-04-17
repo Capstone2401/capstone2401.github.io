@@ -25,7 +25,7 @@ function HomepageHeader() {
           <Link
             className="border border-white font-semibold dark:border-base rounded-2xl p-3 hover:border-base hover:text-base hover:bg-primary dark:hover:bg-base dark:hover:text-neutral transition ease-in"
             to="/docs/category/case-study"
-            style={{ textDecoration: "none" }}
+            style={{ textDecoration: "none", zIndex: 10 }}
           >
             Read the Case study{" "}
           </Link>
