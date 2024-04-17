@@ -86,8 +86,7 @@ const config: Config = {
           },
 
           {
-            type: "doc",
-            docId: "docs",
+            href: "/docs/category/docs",
             position: "right",
             label: "Docs",
           },

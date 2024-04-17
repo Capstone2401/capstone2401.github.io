@@ -6,11 +6,12 @@ import HomepageFeatures from "@site/src/components/HomepageFeatures";
 import CliPreview from "../components/CliPreview";
 
 import styles from "./index.module.css";
+import DashBoardPreview from "../components/DashboardPreview";
 
 function HomepageHeader() {
   const { siteConfig } = useDocusaurusContext();
   return (
-    <div className="bg-base dark:bg-primary px-4 text-white dark:text-base antialiased py-8 md:py-24 pb-14 relative font-sans border-solid border-t-1 border-gray-700 border-r-0 border-l-0 border-b-0">
+    <div className="bg-base dark:bg-primary px-4 text-white dark:text-base antialiased py-8 md:py-60 pb-14 relative font-sans border-solid border-t-1 border-gray-700 border-r-0 border-l-0 border-b-0">
       <div className="flex flex-col gap-10">
         <h1 className="font-semibold text-6xl text-primary dark:text-black text-center">
           {siteConfig.title}
@@ -38,10 +39,11 @@ export default function Home(): JSX.Element {
       title={"Home"}
       description="Description will go into a meta tag in <head />"
     >
-      <HomepageHeader />
       <main>
+        <HomepageHeader />
         <HomepageFeatures />
         <CliPreview />
+        <DashBoardPreview />
       </main>
     </Layout>
   );
