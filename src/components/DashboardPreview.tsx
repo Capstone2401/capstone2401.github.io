@@ -1,9 +1,9 @@
 export default function DashBoardPreview(): JSX.Element {
   return (
-    <div className="flex flex-col justify-center items-center gap-4 py-10">
-      <h2>Custom React Dashboard to display event and user insights</h2>
+    <div className="flex flex-col justify-center items-center gap-4 py-20 px-10">
+      <h2>React Dashboard to display event and user insights</h2>
       <img
-        src={require("/static/img/dataloaf-dashboard.png").default}
+        src={require("/static/img/dataloaf-dashboard-1.png").default}
         alt="Image of Dataloaf Dashboard UI"
         width="1300"
         className="rounded-lg border border-white"

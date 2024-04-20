@@ -10,27 +10,27 @@ type FeatureItem = {
 
 const FeatureList: FeatureItem[] = [
   {
-    title: "500,000+ events per second",
-    Svg: require("@site/static/img/undraw_docusaurus_mountain.svg").default,
-    description: <>through scalable data pipeline</>,
+    title: "Scalable ETL pipeline",
+    Svg: require("@site/static/img/noun-data-pipeline.svg").default,
+    description: <>used for event streaming</>,
   },
   {
     title: "Fully automated provisioning",
-    Svg: require("@site/static/img/undraw_docusaurus_tree.svg").default,
+    Svg: require("@site/static/img/noun-console.svg").default,
     description: <>Via custom CLI</>,
   },
 
   {
-    title: "Petabyes of storage",
-    Svg: require("@site/static/img/undraw_docusaurus_react.svg").default,
+    title: "Distributed Data Warehouse",
+    Svg: require("@site/static/img/noun-database-network.svg").default,
     description: <>Via Redshift</>,
   },
 ];
 
 function Feature({ title, Svg, description }: FeatureItem) {
   return (
-    <div className={clsx("col col--4")}>
-      <div className="text--center">
+    <div className="">
+      <div className="flex justify-center">
         <Svg className={styles.featureSvg} role="img" />
       </div>
       <div className="text--center padding-horiz--md">
@@ -45,7 +45,7 @@ export default function HomepageFeatures(): JSX.Element {
   return (
     <section className={styles.features}>
       <div className="container py-10 ">
-        <div className="row">
+        <div className="flex flex-1 flex-wrap justify-around">
           {FeatureList.map((props, idx) => (
             <Feature key={idx} {...props} />
           ))}

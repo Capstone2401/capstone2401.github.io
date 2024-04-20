@@ -1,6 +1,6 @@
 export default function CliPreview(): JSX.Element {
   return (
-    <div className="flex justify-center items-center gap-10 py-20 bg-gray-100 dark:bg-zinc-700">
+    <div className="-z-20 flex sm:flex-row flex-col justify-center items-center gap-10 py-20 px-10 bg-zinc-100 dark:bg-zinc-900">
       <div>
         <img
           src={require("/static/img/Windows_Terminal_logo.png").default}
@@ -10,7 +10,7 @@ export default function CliPreview(): JSX.Element {
       </div>
       <div>
         <div>
-          <h3>With just a few clicks, you can deploy:</h3>
+          <h3>With just a few clicks of the CLI, you can deploy:</h3>
           <ul>
             <li>Amazon Redshift cluster</li>
             <li>Amazon Data Firehose</li>
@@ -27,7 +27,7 @@ export default function CliPreview(): JSX.Element {
               <img
                 src={require("/static/img/gopher.png").default}
                 alt="golang icon"
-                width="85"
+                width="75"
                 className="rounded-lg"
               />
             </li>
@@ -35,7 +35,7 @@ export default function CliPreview(): JSX.Element {
               <img
                 src={require("/static/img/terraform.png").default}
                 alt="terraform icon"
-                width="85"
+                width="75"
                 className="rounded-lg"
               />
             </li>
@@ -43,7 +43,7 @@ export default function CliPreview(): JSX.Element {
               <img
                 src={require("/static/img/aws-sdk.png").default}
                 alt="aws sdk icon for node"
-                width="85"
+                width="75"
                 className="rounded-lg"
               />
             </li>
@@ -51,7 +51,7 @@ export default function CliPreview(): JSX.Element {
               <img
                 src={require("/static/img/docker.jpg").default}
                 alt="docker icon"
-                width="85"
+                width="75"
                 className="rounded-lg"
               />
             </li>
