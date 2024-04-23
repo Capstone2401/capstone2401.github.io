@@ -1,11 +1,11 @@
 export default function CliPreview(): JSX.Element {
   return (
     <div className="-z-20 flex sm:flex-row flex-col justify-center items-center gap-10 py-20 px-10 bg-zinc-100 dark:bg-zinc-900">
-      <div>
+      <div className="bg-[#1d1d2d] p-2 rounded-md">
         <img
-          src={require("/static/img/Windows_Terminal_logo.png").default}
+          src={require("/static/img/loaf-cli-trimmed.gif").default}
           alt="Preview of custom CLI"
-          width="700"
+          width="800"
         />
       </div>
       <div>
