@@ -241,8 +241,13 @@ a.navbar__link, a.footer__link-item {
   .navbar__logo {
     visibility: hidden;
   }
+
 }
 
 .navbar {
   min-width: 375px;
+}
+
+.navbar-sidebar__brand .navbar__logo {
+  visibility: visible;
 }
