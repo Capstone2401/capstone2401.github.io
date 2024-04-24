@@ -235,3 +235,14 @@ a.navbar__link, a.footer__link-item {
   display: flex;
   align-items: center;
 }
+
+@media screen and (max-width: 420px){
+
+  .navbar__logo {
+    visibility: hidden;
+  }
+}
+
+.navbar {
+  min-width: 375px;
+}
