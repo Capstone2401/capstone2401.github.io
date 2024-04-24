@@ -8,6 +8,7 @@ import CliPreview from "../components/CliPreview";
 import styles from "./index.module.css";
 import DashBoardPreview from "../components/DashboardPreview";
 import BannerAnimation from "../components/BannerAnimation";
+import { SDKPreview } from "../components/sdkPreview";
 
 function HomepageHeader() {
   const { siteConfig } = useDocusaurusContext();
@@ -46,6 +47,7 @@ export default function Home(): JSX.Element {
         <HomepageFeatures />
         <CliPreview />
         <DashBoardPreview />
+        <SDKPreview />
       </main>
     </Layout>
   );

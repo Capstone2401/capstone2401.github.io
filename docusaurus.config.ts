@@ -151,7 +151,7 @@ const config: Config = {
         copyright: `Copyright © ${new Date().getFullYear()} DataLoaf`,
       },
       prism: {
-        theme: prismThemes.github,
+        theme: prismThemes.dracula,
         darkTheme: prismThemes.dracula,
       },
 
