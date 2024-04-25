@@ -45,7 +45,7 @@ export default function HomepageFeatures(): JSX.Element {
   return (
     <section className={styles.features}>
       <div className="container py-10 ">
-        <div className="flex flex-1 flex-wrap justify-around">
+        <div className="flex flex-1 flex-wrap gap-20 justify-around">
           {FeatureList.map((props, idx) => (
             <Feature key={idx} {...props} />
           ))}

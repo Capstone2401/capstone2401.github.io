@@ -11,12 +11,6 @@ async function createUser(req, res) {
   const device = req.headers["user-agent"];
   const eventLocation = req.headers["x-location"];
 
-  if (!device || !location) {
-    return res
-      .status(400)
-      .json({ error: "Device or location information missing in headers" });
-  }
-
   try {
     await loaf.makeUser(email, { fullName, address });
     await loaf.sendEvent("create account", username, { device, eventLocation });

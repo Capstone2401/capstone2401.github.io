@@ -28,7 +28,7 @@ export function SDKPreview(): JSX.Element {
           </div>
         </button>
       </div>
-      <div className="w-5/6 xl:w-fit l:w-1/2 md:w-1/2">
+      <div className="w-full xl:w-fit l:w-1/2 md:w-1/2">
         <CodeBlock
           language="js"
           className="text-sm border border-zinc-700 overflow-clip"
