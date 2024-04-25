@@ -6,14 +6,14 @@ const loaf = loafSDK.init(
 );
 
 async function createUser(req, res) {
-  const { email, fullName, address } = req.user;
+  const { user_id, fullName, address } = req.session.user;
 
   const device = req.headers["user-agent"];
   const eventLocation = req.headers["x-location"];
 
   try {
-    await loaf.makeUser(email, { fullName, address });
-    await loaf.sendEvent("create account", username, { device, eventLocation });
+    await loaf.makeUser(user_id, { fullName, address });
+    await loaf.sendEvent("create account", user_id, { device, eventLocation });
     res.status(201).json({ message: "User created successfully" });
   } catch (error) {
     console.error("Error creating user:", error);
