@@ -19,9 +19,9 @@ function HomepageHeader() {
         <h1 className="font-semibold text-6xl text-primary dark:text-black text-center">
           {siteConfig.title}
         </h1>
-        <h2 className="text-neutral text-center text-2xl dark:text-black">
+        <p className="text-neutral text-center text-2xl dark:text-black">
           {siteConfig.tagline}
-        </h2>
+        </p>
         <div className={styles.buttons}>
           <Link
             className="border border-white font-semibold dark:border-base rounded-2xl p-3 hover:border-base hover:text-base hover:bg-primary dark:hover:bg-base dark:hover:text-neutral transition ease-in"

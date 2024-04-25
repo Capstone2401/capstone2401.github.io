@@ -6,12 +6,19 @@
 
 /* You can override the default Infima variables here. */
 
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 
+* {
+  font-family: "Be Vietnam Pro", sans-serif;  
+}
+
 :root {
+  --ifm-font-family-base: "Be Vietnam Pro", sans-serif;
   --ifm-color-primary: #ceb16e;
   --ifm-color-primary-dark:  #F0B96E ;
   --ifm-color-primary-darker:  #e6af64;
@@ -238,18 +245,12 @@ a.navbar__link, a.footer__link-item {
   align-items: center;
 }
 
-@media screen and (max-width: 440px){
-
-  .navbar__logo {
-    visibility: hidden;
+@media screen and (max-width: 996px) {
+  .navbar__items--right {
+    display: none;
   }
-
 }
 
 .navbar {
   min-width: 375px;
-}
-
-.navbar-sidebar__brand .navbar__logo {
-  visibility: visible;
 }
