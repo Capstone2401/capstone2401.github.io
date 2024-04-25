@@ -20,7 +20,11 @@ function HomepageHeader() {
           {siteConfig.title}
         </h1>
         <p className="text-neutral text-center text-2xl dark:text-black">
-          {siteConfig.tagline}
+          A{" "}
+          <span className="text-primary font-bold dark:text-black">
+            self hosted
+          </span>{" "}
+          product analytics platform for developers.
         </p>
         <div className={styles.buttons}>
           <Link
