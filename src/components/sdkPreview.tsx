@@ -11,7 +11,7 @@ export function SDKPreview(): JSX.Element {
           <li>Easy to import</li>
           <li>Easy to use</li>
         </ul>
-        <button className="font-semibold p-2 rounded-xl transition ease-in-out duration-300 hover:scale-[0.96]">
+        <button className="font-semibold p-2 rounded-xl transition ease-in-out duration-200 subpixel-antialiased hover:scale-[1.048]">
           <div className="flex items-center gap-3 border-b border-b-black pb-1 dark:border-b-white">
             <span>Check out the docs </span>
             <svg

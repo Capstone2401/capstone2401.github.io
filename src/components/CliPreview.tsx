@@ -10,7 +10,7 @@ export default function CliPreview(): JSX.Element {
       </div>
       <div>
         <div>
-          <h3>With just a few clicks of the CLI, you can deploy:</h3>
+          <h3>With just a few clicks of the CLI, deploy:</h3>
           <ul>
             <li>Amazon Redshift cluster</li>
             <li>Amazon Data Firehose</li>
@@ -21,7 +21,7 @@ export default function CliPreview(): JSX.Element {
           </ul>
         </div>
         <div>
-          <p>Technologies:</p>
+          <p>CLI Technologies:</p>
           <ul className="flex list-none gap-2 px-0 py-5">
             <li>
               <img

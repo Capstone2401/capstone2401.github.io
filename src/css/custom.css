@@ -10,6 +10,7 @@
 @tailwind components;
 @tailwind utilities;
 
+
 :root {
   --ifm-color-primary: #ceb16e;
   --ifm-color-primary-dark:  #F0B96E ;
@@ -44,6 +45,7 @@
   font-size: 18px;
   line-height: 32px;
 }
+
 
 ul {
   list-style: disc;
@@ -236,7 +238,7 @@ a.navbar__link, a.footer__link-item {
   align-items: center;
 }
 
-@media screen and (max-width: 420px){
+@media screen and (max-width: 440px){
 
   .navbar__logo {
     visibility: hidden;
