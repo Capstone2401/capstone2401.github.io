@@ -1,7 +1,7 @@
 export default function CliPreview(): JSX.Element {
   return (
     <div className="-z-20 flex md:flex-row flex-col justify-center items-center gap-16 py-20 px-10 bg-zinc-100 dark:bg-zinc-900">
-      <div className="bg-[#1d1d2d] p-2 rounded-md border border-zinc-700 drop-shadow-xl">
+      <div className="bg-[#1d1d2d] p-2 rounded-md border border-accent drop-shadow-xl">
         <video loop autoPlay playsInline muted width="900">
           <source
             src={require("/static/img/loaf-cli-trimmed.mp4").default}

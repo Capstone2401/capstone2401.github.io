@@ -3,7 +3,7 @@ import sdkSnippet from "../../snippets/sdk-home-page";
 
 export function SDKPreview(): JSX.Element {
   return (
-    <div className="bg-zinc-100 dark:bg-zinc-800 flex flex-col md:flex-row justify-center items-center gap-20 py-20 px-10">
+    <div className="bg-zinc-100 dark:bg-zinc-900 flex flex-col md:flex-row justify-center items-center gap-20 py-20 px-10">
       <div>
         <h3>Use the SDK for event and user generation</h3>
         <ul>
@@ -31,7 +31,7 @@ export function SDKPreview(): JSX.Element {
       <div className="w-full xl:w-fit l:w-1/2 md:w-1/2">
         <CodeBlock
           language="js"
-          className="text-sm border border-zinc-700 overflow-clip"
+          className="text-sm border border-accent overflow-clip"
         >
           {sdkSnippet.code}
         </CodeBlock>

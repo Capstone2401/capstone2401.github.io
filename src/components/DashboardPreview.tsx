@@ -6,7 +6,7 @@ export default function DashBoardPreview(): JSX.Element {
         src={require("/static/img/dataloaf-dashboard-1.png").default}
         alt="Image of Dataloaf Dashboard UI"
         width="1300"
-        className="rounded-lg border border-zinc-700"
+        className="rounded-lg border border-accent"
       />
       <caption>
         Provides ability to select an event type, an aggregation type, and
