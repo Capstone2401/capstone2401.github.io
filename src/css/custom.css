@@ -53,7 +53,6 @@
   line-height: 32px;
 }
 
-
 ul {
   list-style: disc;
 }
@@ -124,6 +123,10 @@ h4 {
   font-size: 20px;
   margin-bottom: 8px !important;
   font-weight: 600;
+}
+
+code span {
+  font-family: monospace;
 }
 
 .circles {
