@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkdataloaf=self.webpackChunkdataloaf||[]).push([[6035],{2613:e=>{e.exports=JSON.parse('{"title":"Docs","slug":"/category/docs","permalink":"/docs/category/docs","navigation":{"previous":{"title":"References","permalink":"/docs/case-study/references"},"next":{"title":"CLI","permalink":"/docs/docs/cli"}}}')}}]);
