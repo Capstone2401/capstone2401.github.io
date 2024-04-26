@@ -1,47 +1,56 @@
 ---
 sidebar_position: 3
 ---
+# Exploration of DataLoaf Design and Components
+![](https://lh7-us.googleusercontent.com/rfvJ-c9fjqJ2XRP50gCF3NOqzs5ThXOLJxL330dTwAY59Uz0VUljmDkZPwCCOS98LdLw8_PpIz85e8LGLQG-UBQ4DBtYKfDK5lYOTOn0xZnJ6csRMc5HqK_K_PmVkChIHcSgRsGl_5-RIT44)
 
-# Tour of DataLoaf
-DataLoaf can be mentally divided into three sections: 
+DataLoaf can be mentally divided into three sections, shown in the figure above. They are: data collection, data storage and data visualization.
 
+DataLoaf's infrastructure is deployed to Amazon Web Services (AWS) through the use of a CLI tool. The deployment process is largely automated, and only needs a few pieces of information. The CLI tool makes it easy to provision DataLoaf infrastructure and get started with product analytics. It handles the heavy lifting in deployment and configuration of AWS resources, making self-hosting your product analytics as easy as possible.
 
-![](https://lh7-us.googleusercontent.com/7mNAtxZa65qAZr8OYFuTeCTdQOPKtIwzdCqSNdbzmHVNtfNVrbmC9kXPKZu2XotztESsjixH4YoUtSfgcwBEKle7ztQ14M1A0UlN_U7I6gmKQbLtXCnxtVHFc7SY-0UL7vDOzRYrG1WcWB0i)
-- Data collection
-- Data storage
-- Data visualization
+Data collection is handled by a combination of the SDK, which captures the data, and the infrastructure that moves that data into the database. The data storage section is the database itself. Data visualization encapsulates the insights application and the infrastructure that hosts it. 
 
-Data collection is handled by a combination of the SDK and the infrastructure that moves that data into the database. Data storage is the database itself and is the most impactful decision that was made while designing DataLoaf. Data visualization encapsulates the remaining infrastructure and a full-stack application that's used visualize the data that answer company questions. 
+The purpose of this section is only to provide a high-level overview of DataLoaf and its design. It's not meant to explain why certain design decisions were made. Decisions and their associated tradeoffs will be explored in the next section. 
 
-The infrastructure is deployed to an existing AWS account from the provided CLI tool. Most of this process is totally automated, with the exception of some manual steps that are needed to finish enabling HTTPS for the full-stack application. Something else that's required to deploy the infrastructure is a domain name that the company owns. This domain name is used to access the full-stack application (which will be called the "insights application" for the rest of the case study). 
+## The SDK and Data Collection Pipeline
+The SDK is an npm package for a Node.js-based back-end server application. It has three actions: creating new event data, creating new user data, and updating existing user data. Event data is immutable, so once it's created, it will never be updated. Once the data is sent from the SDK, it needs a way to be transferred to the database.
 
-The SDK is an npm package for a Node.js-based back-end server application. It can be imported just like any other npm package and is connected to your AWS infrastructure through a URL that is output after deploying with the CLI. The insights application is hosted by an AWS Elastic Compute Cloud (EC2) instance. 
+The figure below shows the infrastructure that represents the data collection pipeline.
 
-The point of this section is to set context by exploring details about the infrastructure and the role of the SDK and insights application in the context of the rest of the infrastructure. 
+![](https://lh7-us.googleusercontent.com/_BnP_3Oth17mRZsybvH7kWl55M5YYamKeZ3-BbP-DthQNydhi6eTIPOZAwzO3Z_BkVYtkJ6MME6GcGXU9YxKhCy7dJvBYQxsJRhfmp3vnupIRPruTdEg8t54UG0aBZKKtvaOknean0qRY1g2)
 
-### Details About the Infrastructure
-Event and user data are sent from the SDK to an AWS API Gateway. The API Gateway forwards this information to one of two AWS Lambda functions. One function is responsible for processing new entries and the other handles updates to existing entries. Event data is immutable, so only user attributes can be updated. 
+Event and user data are sent from the SDK to an AWS API Gateway. An API Gateway is a fully managed interface that allows AWS infrastructure to field requests from a client application. In the context of DataLoaf, the API Gateway is used to receive data from the SDK and forward it to one of two AWS Lambda Functions. AWS Lambda Functions are functions as a service (FaaS). FaaS are single-purpose functions that are invoked in response to an event, such as a request from an API Gateway. One function is responsible for processing new entries and the other handles user updates.
 
-The AWS Lambda function that processes new data will format and forward the data to one of two Amazon Data Firehose streams. Events go to one Firehose instance and users to go the other. Each Firehose stream will send their data to respective Amazon Simple Storage Service (S3) buckets. Event data is collected in one bucket and user data is collected in a second bucket. From there, the data is batch-copied to the database in a single transaction, which happens once every three minutes. 
+The AWS Lambda function that processes new data will format and forward the data to one of two Amazon Data Firehose streams. Firehose is a managed service that is designed to receive large amounts of data and ensure its delivery to a specified destination, such as S3, Redshift and others. New events go to one Firehose instance and new users go to the other. Each Firehose stream will send their data to respective Amazon Simple Storage Service (S3) buckets. S3 is a managed file storage system. Event data is collected in one bucket and user data is collected in a second bucket. From there, the data is batch-copied to the primary data store in a single transaction, which happens once every three minutes. 
 
-Amazon Redshift is the database that was chosen. There are two tables that are created when the infrastructure is being provisioned with the CLI tool. One `events` table and one `users` table. 
+The AWS Lambda function that updates existing user data will interact with the database directly. Using a Lambda function allows for partial updates, which is very important. Because existing attributes might not be part of the update data, the operation needs to be able to retain existing data instead of just overwriting it completely with the new information. This function will pull the existing user information from the database, merge the data together and then write the updated data back to the user's entry.
 
-The `events` table has five columns: 
-- `event_id` to uniquely identify the event from the set
-- `event_name` is the name given to the event in the company's application
-- `user_id` is the ID of the user who was associated with the event 
-- `event_created` is a timestamp when the event was triggered
-- `event_attributes` is a JSON object that contains the key-value attributes sent with the event
+## Data Storage in Amazon Redshift
+Amazon Redshift is the primary data store for DataLoaf. It contains two tables that are created when the infrastructure is provisioned with the CLI tool. One `events` table and one `users` table. The following figure shows example entries from both tables. 
+![](https://lh7-us.googleusercontent.com/GXAvDMcjSHR4ehJ3QlHXt1iWse2JBhweYvGXQkv9UtYQ7E83tN_pjHn1lpgsURDGwMKozNEl9hoFCNhhoXAKJnqRpFrAFF800L3q0udplu3nl-RW8_idNsp28JIM5iMMCmMLEfVR38_rvPHs)
 
-The `users` table has two columns: 
-- `user_id` is the ID of the user's profile
-- `user_attributes` is a JSON object that contains the key-value attributes associated with the user
+![](https://lh7-us.googleusercontent.com/cnkT9gwpsPP6tX6Ma-w945jcUyhJUXjOCHY11RkeQMufRTf-rsH4VNG43KAEjmtoCF-59WIU65bB1pK3ynmYREGBgn6Q4CbAFQ46fwCQdRDCojE_GJssj5EwDa0xLddJqr9hiTPLNCPCbCFX)
 
-The infrastructure of the data visualization component is made of two pieces: An AWS Elastic Load Balancer (ELB) and an Amazon Elastic Cloud Computer (EC2) instance. The ELB is used to interface with the Amazon Certificate management service to issue a TLS certificate to the provided web domain during the infrastructure deployment. It's also used to forward requests that are made to that domain to the EC2 instance. 
+Redshift is a columnar database built on top of PostgreSQL. columnar databases are ideal for performing analytics workloads due to a number of optimizations that will be covered in a later section. In short, the data storage patterns of columnar databases allow for improved query speeds when doing the aggregations commonly found in analytics (counts, averages, medians, etc.). 
 
-The EC2 instance hosts the back and front-ends of the insights application. A Docker container of Nginx is used as a web server that serves the React front-end application. It also forwards requests to the Express back-end. The express back-end is built into its own Docker container during the infrastructure deployment. 
+It also integrates with a number of other AWS services, such as Amazon Data Firehose, S3, AWS Glue, Amazon EMR and more. This gave us several options when choosing the necessary components of our data pipeline.
 
-All requests from the insights application are handled by the back-end. When a change is made to the selections on the front-end for creating an insights graph, a request containing that information is sent to the back-end. Aggregated calculations are performed when the back-end queries the Redshift database.
-### Insights Application for Data Visualization
-(Intended content: information about the interface of our insights application with screenshots. Cover the features that we supported, including custom events, which aggregation types, filters and date ranges.)
+Redshift is also fully managed. It provides many features out of the box that traditionally require large engineering efforts to roll out. For one, it is sharded, which allows it to scale across additional nodes as overall storage capacity needs increase. It also provides query caching, meaning that repeated queries on unchanged data return responses almost immediately, increasing the responsiveness of the UI for DataLoaf.
 
+## Data Visualization with the Insights Application
+![](https://lh7-us.googleusercontent.com/Q6cgabnYGC9fYtSuBpB3OMYTrVXqB-0SRLuZPAsE_rlCpnHlPMk3o_Jtvm5UGJ1Ss60gtyLYDDxxDCVW5E2ES2vTbx6sHhq-jryvoB7kjDpfSFM62zkrYg_BXmQaWlOHtMtsEmU2H2ChR9Vg)
+
+The figure above shows the infrastructure of the data visualization section. 
+
+During the provisioning process, an Amazon Elastic Compute Cloud (EC2) instance is deployed. The EC2 instance hosts the back-end and front-end of the insights application. Nginx is used as a web server, and it serves the front-end application. It also forwards requests to the Express back-end. When a new selection is made in the insights application for a new data visualization, a request containing the selections are sent to the back-end.
+
+There is an option to add an Amazon Elastic Load Balancer (ELB) to the infrastructure if a valid domain is provided to the CLI. If provided, the CLI will automate the SSL/TLS certificate process to allow for HTTPS requests to hit the Insights application. 
+
+Both our back-end application and Nginx server are deployed via Docker. The use of Docker enabled a simpler deployment process due to the integration of configuration files within our back-end and Nginx containers. This standardization and easy integration allowed for a simpler deployment process within the EC2 instance.
+  
+
+![](https://lh7-us.googleusercontent.com/SlzOeu0H_lTlzbaKutIGDDcu96U0DaeKhf54AcuStn_hB0zudygQU_ZIDJ2RDTDwEeODYCAAgZGPuTEjb1Fyu2kL86nL1faLUJpjGzLgCMj6GY3TXMhr_NxErhCGo3mNIF_hTuRbYdumdofn)
+
+  
+
+The figure above showcases how DataLoaf’s insights application can be used to obtain event and user data. The query builder on the left of the interface allows for questions to be constructed. The result is visualized in the “Result Window” on the right side of the interface. A query can be built using up to four components: the event of interest, the aggregation type, the aggregation period and, optionally, any additional filters.

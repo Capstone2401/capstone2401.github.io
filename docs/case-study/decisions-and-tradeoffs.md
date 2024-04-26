@@ -1,126 +1,44 @@
 ---
 sidebar_position: 4
 ---
-# Design Decisions and Tradeoffs
-Many decisions needed to be made over the course of designing and creating DataLoaf. This section covers the five most impactful decisions. Each discussion covers the problems that needed to be solved, the solution that was chosen and why, and looks at alternatives and why they weren't used. 
+# Justification of Design Decisions and Their Tradeoffs
+This section covers the five most impactful design decisions in DataLoaf’s creation. Each discussion covers the problems that needed to be solved, the solution that was chosen and why it was chosen over alternatives.
 
-(Goal: engineering challenges. Summary of the challenges. Contextualize the next discussions.)
+## Tradeoffs of the Database Type
+Our use case required a database that could handle event storage and user associations effectively. There also needed to be a way to perform analytical queries on the data. When considering different options, relational databases were a natural starting point.
 
-## Design of the Database
-There were two problems that needed to be solved when designing the database: 
+Relational databases organize data into tables with rows and columns. Each row typically represents a single entity known as a record. All of the data related to that entity is stored within the row. This is also how the data is stored internally. This structure is intuitive and efficient for transactional operations and relational queries, where data is typically accessed row by row.
 
-- Determine what type of database would be a best fit for DataLoaf's needs. 
-- Determine what kind of schema that the database would use. 
+While relational databases can suffice for analytics workloads, a superior alternative exists. Columnar databases, such as Amazon Redshift and ClickHouse, are similar in many ways to relational databases, often being built on top of them. But there is one key difference. columnar databases internally store data based on the columns in a table. This means that aggregations can be performed by reading only columns required for the calculation. This minimizes the amount of data that needs to be accessed and processed in comparison to relational databases.
 
-### Choosing the Database Type 
-When determining which type of database we'd use, it was important to consider what we would use the database for. Earlier, we covered how _aggregation types_ are an important part of forming questions to ask the data. We also need to associate events with the users that triggered them. This makes relational databases a natural place to start. We could store events and users in separate tables. From there, SQL provides the features we need to JOIN those tables and make aggregate calculations directly through queries.
+Other optimizations are made possible by this design, such as:
+- the ability to compress individual columns based on their data type
+- leveraging SIMD instructions for parallelizing computations on column aggregations
 
-While doing research for existing product analytics platforms, we found that columnar databases were the type of database most commonly used when doing any kind of analytics. Backing that up, we found that PostHog uses ClickHouse, which is columnar. But why? What features make columnar databases even more suitable for analysis than relational databases? More importantly, would those reasons line up with what we needed for DataLoaf? 
+There are limitations of columnar databases, such as inferior write performance compared to many relational databases. This results from the need to access many columns when writing to the database. While still a tradeoff, batching strategies can alleviate this issue. Our data delivery strategy aims to accomplish this.
 
-Columnar databases are conceptually similar to relational databases, so their advantages aren't readily apparent. The main difference is how a record is formed. In a columnar database, values are collected into records by column instead of by the relational database's row. But why is that significant? 
+Ultimately, Amazon Redshift  was chosen due to its columnar storage, as well as its seamless integration with other AWS services. It provides the robustness and familiarity of Postgres, as well as analytics focused optimizations.
 
-[TODO; figure comparing relational to columnar database storage structures]
+## Tradeoffs of the Database Schema
+While the database schema is fairly straightforward, there were some challenges that came up. Choosing to store events and users in one table each was a simple decision. Likewise, columns like `event_name` and `user_id` were also easy choices. The complicated part was determining how to store event and user attributes so that filters could be applied at the query level.
 
-In a relational database, each record represents all of the information about an entity. For example, if we were representing an event in a relational database, each record would have values in the `event_name`, `user_id`, and `event_attributes` columns. A single event would be made up of a value from these columns, such as: `"watch video"`, `349520` and `{region: "Alaska"}`. Another event entry could be: `"like video"`, `921516` and `{device: "Android", video: 1025101}`.
+Discussions were had around dynamically inserting new columns as new custom properties were defined, but this is a complicated solution. Platforms like Amplitude take this approach, but additional processing and infrastructure would be required on data collection to facilitate such a system. In the spirit of not overcomplicating the ingestion pipeline, we looked at other solutions.
 
-In a columnar database, a record is collected from all of the information in a single column. An example record of all the values for `event_name` would be `"watch video"`, `"like video"`, `"watch video"` and `"watch video"`.
+Attributes are passed through the data pipeline as stringified JSON objects. They can contain an arbitrary number of key-value pairs whose values are not predetermined. They are then stored directly as JSON in Redshift, using its built in SUPER data type, which is used for unstructured data.
 
-This difference is enormous when the goal is to perform calculations. Looking at the question posted some sections back: "How many videos were watched in the last week?" To get that set of numbers, a relational database would have to look at all of the rows in its `events` table, group the rows that had a value of `"watch video"` for its `event_name` by the date they were watched, then count the total number of rows in those groups. However, in a columnar database, only two rows need to be looked at before it can start summing all of the `"watch video"` entries by their associated watch date: `event_namede` and `event_created`. 
+This approach simplifies storage, but complicates retrieval. When a query that requires filtering is made, aggregations become more complicated to perform. This is because comparisons between a collection of filters and the unstructured attributes for a user/event become necessary. While Redshift provides certain functions for accessing keys on a SUPER data type, they are naïve and are not suitable for the comparisons needed. Instead, a custom Python user defined function (UDF) was used to solve this problem.
 
-This is why columnar databases are so powerful for analytics: because aggregation queries need to retrieve fewer records. In our use case, where we could have hundreds of thousands of events, retrieving only two records instead of a majority of the records is a huge benefit. 
+The function does an evaluation between the filters selected in the DataLoaf UI and attributes on a given event or user. If a user/event’s attributes satisfy all filtered selections, it is included in the result. As a result, we were able to implement filtering at the database level, simplifying the amount of processing needing to be done on the application server.
 
-So, we've justified the decision of using a columnar database instead of a relational database. Which columnar database should we use? We quickly found Amazon Redshift as a possible solution. Amazon Redshift is a columnar database that's built on top of PostgreSQL and accepts SQL queries. (Possible TODO; extra explanation around why building columnar databases on top of a relational database is so common - because Redshift isn't the only one that does this.)
+## Tradeoffs of the Data Collection Pipeline
+When thinking about how to get the data from the application to the Redshift database, we need to account for two key types of data in our pipeline: new data and update data. 
 
-Even though Redshift seems like a great solution, there are some drawbacks to choosing it. While columnar databases addresses our desire to make aggregated queries, calculating the aggregations at the query level isn't our only option. We could grab all of the necessary data and do the calculations programmatically at the application level (a choice that is explored in a later section). 
+New data generated from the SDK is not sent in a form that's ready to be delivered directly to Redshift. We chose to leverage AWS Lambda to perform the processing that's needed to get our data in the shape needed for storage. However, there were tradeoffs for this decision. AWS Lambda functions have a limit of 1,000 concurrent invocations, which means that we can only ingest 1,000 new pieces of data at a time. Also, if we neared that limit, the performance of our pipeline would degrade as the service would not be able to handle any additional incoming traffic until a running function finishes its execution. While this is a limitation, with our use case being for small to medium sized companies, AWS Lambda functions seem to be a good choice to handle the anticipated traffic volume.
 
-Additionally, columnar databases have a disadvantage to relational databases when it comes to the CRUD operations beyond 'read.' They've got worse performance for create and update which are important operations to DataLoaf (possible TODO; explain why if it's not self-evident from previous context). It's highly likely that a larger number of people will be using the application concurrently (and therefore generating events) than there will be people that are curious about the application's engagement. 
+Once a piece of new data has been processed through the Lambda function, we needed to decide how it would be delivered to Redshift. Ideally, we want something that would allow us to constantly send information without significant delay. For this task, we decided to use Amazon Data Firehose. This infrastructure component is a fully managed data delivery pipeline that enables our infrastructure to move data from the AWS Lambda function to Redshift. Firehose sends the information to an AWS S3 bucket, which acts as an intermediary container for the data before it gets copied over to Redshift. 
 
+One benefit to this is that Firehose batches data. This means that it will wait for a certain threshold to be met (either time or volume of data) and send all of the data together to be stored into S3. From there, the batched data will be copied from S3 into Redshift in one transaction. This means that each piece of new data doesn't have to be inserted into Redshift one record at a time, significantly offsetting the discussed downsides of columnar databases. Another benefit to using these S3 buckets in combination with Firehose is that it allows us to perform retries. If the transaction fails, Firehose will initiate another try after five minutes, and will continue to retry until the data has been successfully copied.
 
+One big tradeoff to using Firehose is that it has a throughput limit of 2,000 transactions per second. Again, since DataLoaf is intended for small to medium sized applications, we felt that this amount of throughput would be justifiable and doesn’t require us to add more complexity to our infrastructure for unnecessary throughput gains.
 
-## Server-Side SDK vs Client-Side SDK
-
-The details of all product analytics platforms are different, but most of them have a consistent method for collecting and visualizing data. 
-
-[figure that illustrates the collection of event data. Maybe rows in a table of example events]
-
-The kind of data that's collected is split into two categories: _event_ data and _user_ data. User data is tracked because it can be helpful to associate an event with a specific user. Doing so results in a broader range of questions that you can ask about how users are interacting with your application, and we'll cover how that works in a bit. First, let's define some terminology.
-
-An event represents an action that a user took. An 'action' can be anything, from common tasks like signing in on an account to more specialized tasks like playing a video or adding an item to a cart. 
-
-Events and users can have _attributes_ associated with them. These are values that help narrow into more specific questions about how users interact with the application. 
-
-When implementing a platform, it's important to design the range of _metrics_ that you want to know. A metric is a value that represents the answer to your question over some range of time. An example would be "how many people made new accounts across the last four months?" You can observe the trend that maybe your signup rate is doubling every month, indicating a wonderful rate of growth. (need to re-write this - the connection between the term 'metric' and the question that's posed isn't clear.)
-
-Data is collected through a software development kit (SDK) that can be imported into new or existing application code. SDKs can be client-side or server-side. The main difference between the two is where they gather data from. 
-
-Client-side SDKs are considered to be a little more unreliable, because add-blockers and other browser settings or add-ons can sometimes block the full range of events from being set, but they allow for a more automated type of collection system that takes less work to set up. 
-
-Server-side SDKs will collect 100% of the events that you want to track. However, they're more work to set up, as you need to manually define the event and user data across your back-end server. DataLoaf's SDK is a server-side package for Node.js back-ends. We'll explore its details in a bit. 
-
-Once data is collected, it's put in some sort of permanent storage. Each platform has a different storage solution, but they all serve the same purpose: to act as a home for your data until you wish to visualize it through _trends_. A trend is some sort of graph that displays the metric over some period of time, and commonly takes the form of a bar or line graph. 
-
-[figure that shows an example of a metric from PostHog]
-
-(A description of the figure and how to read its trends.)
-(A description of the interface and what each part of it means; including events, users and attributes. Specifically mention that each platform usually uses a different name for events, users and attributes.) 
-
----
-
-The kind of data that's collected is split into two categories: _event_ data and _user_ data. User data is tracked because it can be helpful to associate an event with a specific user. Doing so results in a broader range of questions that you can ask about how users are interacting with your application, and we'll cover how that works in a bit. First, let's define some terminology.
-
-An event represents an action that a user took. An 'action' can be anything, from common tasks like signing in on an account to more specialized tasks like playing a video or adding an item to a cart. 
-
-Events and users can have _attributes_ associated with them. These are values that help narrow into more specific questions about how users interact with the application. 
-
-The most important thing about a product analytics platform is that it helps answer questions that you have about how users interact with your product. 
-
-For example, two question you might have are "how many people watched a video yesterday?" or "how many unique users watched a video yesterday?" These questions follow a pattern that you can use to determine what kinds of data you want to track in your application. 
-
-The first thing to notice about these questions is that there is an action that you can turn into an event: "watch a video" 
-
----
-Choosing a Database
-What kind of database was the most important decision that we would need to make. This decision also had a trickle effect on many of the other decisions that were made while creating DataLoaf. 
-
-While doing research for existing product analytics platforms, we found that columnar databases were the type of database most commonly used when doing any kind of analytics. Backing that up, we found that PostHog uses ClickHouse as its database, which is columnar. But why? What features made them highly suitable for analysis? More importantly, would those reasons line up with what we needed for DataLoaf?
-
-Columnar databases are conceptually similar to relational databases, so their advantages aren't readily apparent. The main difference is how data is associated. In a columnar database, values are collected by column instead of by row. But what does that really mean? 
-
-In a relational database, each record represents all of the information about an entity. If we were representing an event in a relational database, each record would have values in the `event_name`, `user_id`, and `event_attributes` columns. A single event would be made up of a value from these columns, such as `"watch video"`, `349520` and `{region: "Alaska"}` or `"like video"`, `921516` and `{device: "Android", video: 1025101}`. 
-
-In a columnar database, a record is made up of a different set of values. An example record of all the values for `event_name` would be `"watch video"`, `"like video"`, `"watch video"`, `"watch video"`. 
-
-This difference is enormous when your goal is to perform calculations. Let's look at the question we posed a few sections back: "How many videos were watched in the last week?" To get that set of numbers, a relational database would have to look at all of the rows in its `events` table, group the rows that had a value of `"watch video"` for its `event_name` by the date they were watched, then count the total number of rows in those groups. However, in a columnar database, _only two rows need to be looked at_ before it can start summing all of the `"watch video"` entries by their associated watch date. 
-
-This is why columnar databases are so powerful for analytics: because they need to retrieve fewer records before the calculation (the aggregation) can be performed. 
-
-So, we've justified the decision of using a columnar database instead of a relational database. Which columnar database should we use? 
-
-Once this decision had been made, we quickly found Amazon Redshift as a possible solution, a columnar database that's built on top of Postgres and accepts SQL queries. But there were other aspects to consider before we could decide if this would be our final solution. 
-
-(TODO; cover other Amazon databases and why we turned them down, including Redshift's huge storage capacity and other advantages that columnar databases offer...?)
-
-The second most important decision to be made around our database was the schema that it would use. 
-
-(TODO; complete discussion around how we settled on the `attributes` structure)
-
-- we considered an ec2 instance or a microservices structure.
-- Intermediary lambda allows for decoupling between the SDK and delivery stream. Without it, the SDK would have to directly send the format that Firehose expects. This lets users develop and implement their own infrastructure if they choose to, so long as it has a URL endpoint that accepts HTTPS requests.
-
-- What the problem was
-  - We needed infrastructure that would host the full stack application
-  - We needed to support HTTPS
-- What the solution was
-  - We went with a load balancer to use Amazon Certificate Manager. 
-  - We went with an EC2 instance and Nginx / App Docker containers.
-    - Nginx serves the front-end, which is a single page app.
-    - App Docker container runs our back-end Express server. 
-- What the alternatives were
-  - Serving the front-end from a CDN. Decided against it because:
-    - we didn't want to add the cost of more infrastructure if it wasn't necessary
-    - How did we justify the lack of CDN? People in companies that are spread over the world will have latency when accessing the front-end. Because this application is not expected to be used outside of a company, and because the Redshift cluster has to live in a specific region (thereby extending latency from queries if we're far away), it didn't matter if the initial load of the front-end app was a bit faster due to being geographically closer. 
-  - Serving the front-end from an S3 bucket. Decided against it because: 
-    - I don't remember why. 
-  - Setting up TLS certificate through Nginx. Decided against it because: 
-
-----
+The second type of data that we wanted to handle within the applications pipeline was update data. Since this is a fundamentally different type of data, we decided to set up a second path within the pipeline to help facilitate updates. We again needed to consider both the processing and delivery of the data to the database. When considering our processing infrastructure, we decided upon another AWS Lambda function. Just as it was used for the new data path, it allows us to do the repackaging needed to shape the data in the appropriate way for insertion to the database. For delivery, we decided not to add an additional piece of infrastructure and instead write the update directly from the Lambda function. This reduces the overall complexity of the pipeline and allows for updates to happen instantly within the function.

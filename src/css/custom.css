@@ -53,6 +53,11 @@
   line-height: 32px;
 }
 
+.markdown img {
+  margin: 2.5rem 0;
+  border-radius: 0.5rem;
+}
+
 ul {
   list-style: disc;
 }

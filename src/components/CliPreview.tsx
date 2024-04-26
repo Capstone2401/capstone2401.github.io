@@ -22,7 +22,7 @@ export default function CliPreview(): JSX.Element {
         </div>
         <div>
           <p>CLI Technologies:</p>
-          <ul className="flex list-none gap-2 px-0 py-5">
+          <ul className="flex list-none gap-2 px-0 pt-5 m-0">
             <li>
               <img
                 src={require("/static/img/gopher.png").default}
