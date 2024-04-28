@@ -119,29 +119,17 @@ const config: Config = {
             ],
           },
           {
-            title: "Community",
+            title: "Socials",
             items: [
               {
-                label: "Stack Overflow",
-                href: "#",
-              },
-              {
-                label: "Discord",
-                href: "#",
-              },
-              {
-                label: "Twitter",
-                href: "#",
+                label: "LinkedIn",
+                href: "https://www.linkedin.com/company/dataloaf/",
               },
             ],
           },
           {
             title: "More",
             items: [
-              {
-                label: "Blog",
-                to: "/blog",
-              },
               {
                 label: "GitHub",
                 href: "https://github.com/capstone2401",
