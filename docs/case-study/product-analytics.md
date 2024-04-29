@@ -56,10 +56,6 @@ The aggregation type on the left side of the screenshot has been changed back to
 
 A little more information needs to be gathered to be sure that the percentage of videos that are being watched in Alaska is small enough to warrant a higher marketing budget for that region. Fortunately, product analytics platforms make it easy to get that information. Companies have complete control over the types of events and their associated attributes. What kinds of events and attributes a company is interested in depends on the questions that they want to answer.
 
-#### Terms to define: 
-- server-side SDK
-- client-side SDK
-
 ## The Tradeoffs of Managed Product Analytics Platforms
 Platforms like Mixpanel and PostHog are called _managed_. This means that when data is sent from a company's application, it gets stored in a database that's hosted and maintained by the platform provider. Likewise, the insights application that was shown in the last section is accessed through an account on the platform's website.
 

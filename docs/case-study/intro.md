@@ -10,6 +10,4 @@ DataLoaf provides three components that work together to capture, store and anal
 - A Node.js SDK that captures data from back-end servers. 
 - A full-stack application that generates insights from data. 
 
-![](https://lh7-us.googleusercontent.com/gl_0n6TesueFMVboe7g-csJrw7B9zlKoiR5XtW69a_vkYOj1UXcjoyBvv5DEGWYbirfHGXCxARYbGYU-wpr1dLQxJIqZft4EhOxXlXxJTqcY2HEYhAP5vIi8m2dRRasBh39XO1x6iIzsuuHB)
-
 The next section will go into detail about exactly what a product analytics platform is. After that, the following section explores DataLoaf's infrastructure and other components in detail. The third section covers the main point of this case study: an exploration of the engineering decisions and tradeoffs that had the highest impact on DataLoaf's design. The final section concludes with a summary.
