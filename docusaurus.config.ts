@@ -16,7 +16,7 @@ const config: Config = {
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
   organizationName: "data-loaf", // Usually your GitHub org/user name.
-  projectName: "static-site", // Usually your repo name.
+  projectName: "data-loaf.github.io", // Usually your repo name.
   deploymentBranch: "gh-pages",
 
   onBrokenLinks: "throw",
