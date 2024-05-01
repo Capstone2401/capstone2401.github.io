@@ -14,7 +14,7 @@ export function SDKPreview(): JSX.Element {
         </ul>
         <button className="font-semibold p-2 rounded-xl transition ease-in-out duration-200 subpixel-antialiased hover:scale-[1.048]">
           <Link
-            to="/docs/docs/sdk"
+            to="/docs/api/sdk"
             className="no-underline hover:text-black hover:dark:text-white"
             style={{ textDecoration: "none", zIndex: 10 }}
           >

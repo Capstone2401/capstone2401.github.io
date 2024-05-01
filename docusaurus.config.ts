@@ -15,7 +15,7 @@ const config: Config = {
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: "capstone2401", // Usually your GitHub org/user name.
+  organizationName: "data-loaf", // Usually your GitHub org/user name.
   projectName: "static-site", // Usually your repo name.
   deploymentBranch: "gh-pages",
 
@@ -39,14 +39,14 @@ const config: Config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/",
+            "https://github.com/data-loaf/data-loaf.github.io/tree/main/",
         },
         blog: {
           showReadingTime: true,
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/",
+            "https://github.com/data-loaf/data-loaf.github.io/tree/main/",
         },
         theme: {
           customCss: "./src/css/custom.css",
@@ -100,7 +100,7 @@ const config: Config = {
             position: "right",
           },
           {
-            href: "https://github.com/capstone2401",
+            href: "https://github.com/data-loaf",
             label: "GitHub",
             position: "right",
           },
@@ -132,7 +132,7 @@ const config: Config = {
             items: [
               {
                 label: "GitHub",
-                href: "https://github.com/capstone2401",
+                href: "https://github.com/data-loaf",
               },
             ],
           },

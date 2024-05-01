@@ -46,6 +46,10 @@
   --ifm-footer-background-color: #1b1b1d;
 }
 
+a.theme-edit-this-page {
+  display: flex;
+}
+
 .markdown {
   max-width: 900px;
   margin: 0 auto;
