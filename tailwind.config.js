@@ -1,9 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./src/**/*.{jsx,tsx,html}"],
-  theme: {
-    extend: {},
-  },
   plugins: [],
   darkMode: ["class", '[data-theme="dark"]'],
   theme: {
@@ -15,6 +12,17 @@ module.exports = {
         base: "#231f1f",
         footer: "#FFFFFF",
         neutral: "#FFFFFF",
+      },
+
+      animation: {
+        fadeIn: "fadeIn 1.5s",
+      },
+
+      keyframes: {
+        fadeIn: {
+          from: { opacity: "0" },
+          to: { opacity: "1" },
+        },
       },
     },
   },
