@@ -43,7 +43,12 @@
   --ifm-color-primary-lightest:  #ffedab ;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
   --circle-background: rgba(0, 0, 0, 0.1); /* Dark mode background color */
-  --ifm-footer-background-color: #1b1b1d;
+  --ifm-footer-background-color: #09090b;
+  background-color: #09090b;
+  .navbar {
+    background-color: #09090b;
+    border-bottom: 1px solid #18181b ;
+  }
 }
 
 a.theme-edit-this-page {
