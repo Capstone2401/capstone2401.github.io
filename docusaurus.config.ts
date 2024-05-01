@@ -90,7 +90,7 @@ const config: Config = {
           },
 
           {
-            href: "/docs/category/docs",
+            href: "/docs/category/api",
             position: "right",
             label: "Docs",
           },
@@ -114,7 +114,7 @@ const config: Config = {
             items: [
               {
                 label: "Documentation",
-                to: "/docs/category/docs",
+                to: "/docs/category/api",
               },
             ],
           },
