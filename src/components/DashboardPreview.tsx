@@ -8,10 +8,10 @@ export default function DashBoardPreview(): JSX.Element {
         className="rounded-lg border border-accent"
         width={1306}
       />
-      <caption>
+      <p>
         Provides ability to select an event type, an aggregation type, and
         filter based on both user and event attributes
-      </caption>
+      </p>
     </div>
   );
 }
