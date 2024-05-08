@@ -1,7 +1,7 @@
 ---
 sidebar_position: 3
 ---
-# Exploration of DataLoaf Design and Components
+# Architecture Overview
 ![](https://lh7-us.googleusercontent.com/rfvJ-c9fjqJ2XRP50gCF3NOqzs5ThXOLJxL330dTwAY59Uz0VUljmDkZPwCCOS98LdLw8_PpIz85e8LGLQG-UBQ4DBtYKfDK5lYOTOn0xZnJ6csRMc5HqK_K_PmVkChIHcSgRsGl_5-RIT44)
 
 DataLoaf can be mentally divided into three sections, shown in the figure above. They are: data collection, data storage and data visualization.

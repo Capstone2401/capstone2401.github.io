@@ -1,7 +1,7 @@
 ---
 sidebar_position: 2
 ---
-# Understanding the Domain of Product Analytics
+# Product Analytics
 Product analytics is a branch of data analytics that focuses on gathering information about how users engage with a product. Companies can use that information to make data-informed decisions about how a product should evolve. 
 
 Analytics data is captured and referenced with the help of a product analytics platform. Several platforms exist, including Mixpanel, PostHog and Amplitude. Each of these platforms can be used to collect and visualize insights into how an application is being used. These platforms are _managed_. This means that the company that supports the platform is responsible for storing and providing a way to view your application's data. Managed platforms come with some advantages, but have several drawbacks. 

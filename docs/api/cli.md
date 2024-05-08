@@ -2,8 +2,19 @@
 
 The DataLoaf CLI is a command-line interface tool designed to simplify the deployment and management of DataLoaf infrastructure on AWS.
 
+:::warning
+The CLI uses terraform which must be installed for it to work. Install it here:
+
+https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli 
+:::
+
 ## Installation
-To install DataLoaf CLI, you can download the binary from the official repository. After this is done
+To install DataLoaf CLI, you can clone the repository
+
+```
+git clone https://github.com/data-loaf/CLI.git
+```
+Once done, find the make file and make the CLI:
 
 ```
 cd CLI/cmd

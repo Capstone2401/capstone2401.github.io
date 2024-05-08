@@ -1,7 +1,7 @@
 ---
 sidebar_position: 4
 ---
-# Justification of Design Decisions and Their Tradeoffs
+# Design Decisions and Tradeoffs
 This section covers the five most impactful design decisions in DataLoaf’s creation. Each discussion covers the problems that needed to be solved, the solution that was chosen and why it was chosen over alternatives.
 
 ## Tradeoffs of the Database Type

@@ -50,7 +50,7 @@ const config = {
 
 You can send events using the `sendEvent` function.
 
-**`sendEvent(eventName: string, userId: string, eventAttributes: object): void`**
+**`sendEvent(eventName: string, [userId]: string, [eventAttributes]: object): object`**
 
 - `eventName` (string): The name of the event.
 - `userId` (string): The ID of the user associated with the event.
@@ -66,7 +66,7 @@ loaf.sendEvent("login", "user123", { platform: "web" });
 
 To create a new user, use the `makeUser` function.
 
-**`makeUser(userId: string, userAttributes: object): void`**
+**`makeUser(userId: string, [userAttributes]: object): object`**
 
 - `userId` (string): The ID of the new user.
 - `userAttributes` (object): Attributes of the new user.
@@ -81,7 +81,7 @@ loaf.makeUser("user456", { name: "John Doe", email: "john@example.com" });
 
 You can update user information using the `updateUser` function.
 
-**`updateUser(userId: string, userAttributes: object): void`**
+**`updateUser(userId: string, userAttributes: object): object`**
 
 - `userId` (string): The ID of the user to update.
 - `userAttributes` (object): Updated attributes of the user.
@@ -91,9 +91,3 @@ You can update user information using the `updateUser` function.
 ```javascript
 loaf.updateUser("user456", { email: "john.doe@example.com" });
 ```
-
-### Error Handling
-
-Make sure to handle errors appropriately. For example, you can check for missing required parameters such as `eventName` or `userId`.
-
-
