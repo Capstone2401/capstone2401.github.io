@@ -2,7 +2,7 @@ import CodeBlock from "@theme/CodeBlock";
 import sdkSnippet from "../../snippets/sdk-home-page";
 import Link from "@docusaurus/Link";
 
-export function SDKPreview(): JSX.Element {
+export default function SDKPreview(): JSX.Element {
   return (
     <div className="bg-zinc-100 flex flex-col md:flex-row justify-center items-center gap-20 py-20 px-10 dark:bg-zinc-900">
       <div>
