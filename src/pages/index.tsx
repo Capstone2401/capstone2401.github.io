@@ -1,4 +1,3 @@
-import clsx from "clsx";
 import Link from "@docusaurus/Link";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import Layout from "@theme/Layout";
@@ -8,7 +7,8 @@ import CliPreview from "../components/CliPreview";
 import styles from "./index.module.css";
 import DashBoardPreview from "../components/DashboardPreview";
 import BannerAnimation from "../components/BannerAnimation";
-import { SDKPreview } from "../components/sdkPreview";
+import SDKPreview from "../components/SdkPreview";
+import { Team } from "../components/Team";
 
 function HomepageHeader() {
   const { siteConfig } = useDocusaurusContext();
@@ -52,6 +52,7 @@ export default function Home(): JSX.Element {
         <CliPreview />
         <DashBoardPreview />
         <SDKPreview />
+        <Team />
       </main>
     </Layout>
   );
