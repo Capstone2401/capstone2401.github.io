@@ -22,7 +22,7 @@ export default function DashBoardPreview(): JSX.Element {
 
   return (
     <div className="flex flex-col justify-center items-center gap-4 py-20 px-10">
-      <h2 className="text-center">
+      <h2 className="text-center xl:text-3xl lg:text-3xl text-2xl">
         React Dashboard to display event and user insights
       </h2>
       <Carousel className="max-w-[1308px] w-full" renderThumbs={renderThumbs}>
