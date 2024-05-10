@@ -42,8 +42,8 @@ export default function DashBoardPreview(): JSX.Element {
             className="rounded-lg border border-accent"
           />
           <p className="legend">
-            Provides multiple straight forwards visualizations such as line,
-            area, and bar chart
+            Provides multiple simple visualizations such as line, area, and bar
+            chart
           </p>
         </div>
         <div>
