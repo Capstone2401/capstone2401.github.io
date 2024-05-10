@@ -22,7 +22,9 @@ export default function DashBoardPreview(): JSX.Element {
 
   return (
     <div className="flex flex-col justify-center items-center gap-4 py-20 px-10">
-      <h2>React Dashboard to display event and user insights</h2>
+      <h2 className="text-center">
+        React Dashboard to display event and user insights
+      </h2>
       <Carousel className="max-w-[1308px] w-full" renderThumbs={renderThumbs}>
         <div>
           <img
@@ -30,9 +32,9 @@ export default function DashBoardPreview(): JSX.Element {
             alt="Image of Dataloaf Dashboard UI"
             className="rounded-lg border border-accent"
           />
-          <p className="legend">
-            Provides ability to select an event type, an aggregation type, and
-            filter based on both user and event attributes
+          <p className="legend hidden md:block lg:block xl:block">
+            Select an event type, an aggregation type, and filter based on both
+            user and event attributes
           </p>
         </div>
         <div>
@@ -41,9 +43,9 @@ export default function DashBoardPreview(): JSX.Element {
             alt="Image of Dataloaf Dashboard UI"
             className="rounded-lg border border-accent"
           />
-          <p className="legend">
-            Provides multiple simple visualizations such as line, area, and bar
-            chart
+          <p className="legend hidden md:block lg:block xl:block">
+            Provides simple to understand visualizations such as line, area, and
+            bar chart
           </p>
         </div>
         <div>
@@ -52,7 +54,9 @@ export default function DashBoardPreview(): JSX.Element {
               src={require("/static/img/loaf-dashboard-demo.mp4").default}
             ></source>
           </video>
-          <p className="legend">Brief demo showing off the dashboard</p>
+          <p className="legend hidden md:block lg:block xl:block">
+            Brief demo showing off the dashboard
+          </p>
         </div>
       </Carousel>
     </div>
