@@ -50,7 +50,7 @@ export function Team(): JSX.Element {
             linkedIn="https://linkedin.com/in/giannibarber"
             personal="https://giannibarber.com"
             github="https://github.com/giannibarber"
-            mail="personalsite.unchain294@passmail.net"
+            mail="giannibarber@proton.me"
           />
         </div>
         <div className="flex flex-col items-center">
