@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkdataloaf=self.webpackChunkdataloaf||[]).push([[9651],{5086:e=>{e.exports=JSON.parse('{"title":"API","slug":"/category/api","permalink":"/docs/category/api","navigation":{"previous":{"title":"References and Helpful Resources","permalink":"/docs/case-study/references"},"next":{"title":"CLI","permalink":"/docs/api/cli"}}}')}}]);
