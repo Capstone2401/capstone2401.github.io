@@ -49,7 +49,7 @@ There is an option to add an Amazon Elastic Load Balancer (ELB) to the infrastru
 Both our back-end application and Nginx server are deployed via Docker. The use of Docker enabled a simpler deployment process due to the integration of configuration files within our back-end and Nginx containers. This standardization and easy integration allowed for a simpler deployment process within the EC2 instance.
   
 
-![](https://lh7-us.googleusercontent.com/SlzOeu0H_lTlzbaKutIGDDcu96U0DaeKhf54AcuStn_hB0zudygQU_ZIDJ2RDTDwEeODYCAAgZGPuTEjb1Fyu2kL86nL1faLUJpjGzLgCMj6GY3TXMhr_NxErhCGo3mNIF_hTuRbYdumdofn)
+![](../../static/img/dataloaf-dashboard-features-final.png)
 
   
 
