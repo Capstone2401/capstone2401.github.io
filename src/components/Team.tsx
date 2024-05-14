@@ -75,7 +75,7 @@ export function Team(): JSX.Element {
           />
           <p>Allison Embrey</p>
           <ProfileIcons
-            linkedIn="https://www.linkedin.com/in/allison-embrey-3b13a672"
+            linkedIn="https://www.linkedin.com/in/allisonembrey"
             personal="#"
             github="https://github.com/AlliLearns"
             mail="mailto:allilearns@gmail.com"
