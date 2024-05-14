@@ -1,4 +1,4 @@
-#  Query Service API
+#  Query Service
 ## Event and Attribute Endpoints
 
 ### Event Names Endpoint
@@ -11,7 +11,7 @@
   - **Body:** An array of event names in JSON format.
 
 **Example Response Body:**
-```json
+```javascript
 [
   "login",
   "signup",
@@ -29,7 +29,7 @@
   - **Body:** An array of attributes in JSON format.
 
 **Example Response Body:**
-```json
+```javascript
 {
   "event": {
     "platform": ["web", "mobile"],
@@ -64,7 +64,7 @@
   - **Body:** Aggregated event data in JSON format.
 
 **Example Request Body:**
-```json
+```javascript
 {
   "dateRange": {
     "timeUnit": "day",
@@ -79,7 +79,7 @@
 ```
 
 **Example Response Body:**
-```json
+```javascript
 [
   {
     "aggregationType": "total",
@@ -118,7 +118,7 @@
   - **Body:** Aggregated user data in JSON format.
 
 **Example Request Body:**
-```json
+```javascript
 {
   "dateRange": {
     "timeUnit": "month",
@@ -132,7 +132,7 @@
 ```
 
 **Example Response Body:**
-```json
+```javascript
 [
   {
     "aggregationType": "total",
