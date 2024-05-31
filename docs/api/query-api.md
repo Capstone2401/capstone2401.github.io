@@ -1,5 +1,5 @@
-#  Query Service
-## Event and Attribute Endpoints
+# Query Service
+## Informational endpoints
 
 ### Event Names Endpoint
 
@@ -43,14 +43,12 @@
 }
 ```
 
----
-
 ## Data Endpoints
 
 ### Events Endpoint
 
 - **URL:** `/api/query/events`
-- **Method:** POST
+- **Method:** GET
 - **Description:** Retrieves aggregated event data based on specified query parameters.
 - **Request Body:**
   - `dateRange` (object): Object containing information about the date range for the query.
@@ -62,8 +60,13 @@
 - **Response:**
   - **Status Code:** 200 OK
   - **Body:** Aggregated event data in JSON format.
-
-**Example Request Body:**
+---
+**Example of url-encoded query parameters**
+```
+dateRange[timeUnit]=day&dateRange[previous]=7&eventName=login&aggregationType=total&filters[platform]=web
+```
+---
+**Example of decoded query parameters:**
 ```javascript
 {
   "dateRange": {
@@ -77,7 +80,7 @@
   }
 }
 ```
-
+---
 **Example Response Body:**
 ```javascript
 [
@@ -105,7 +108,7 @@
 ### Users Endpoint
 
 - **URL:** `/api/query/users`
-- **Method:** POST
+- **Method:** GET
 - **Description:** Retrieves aggregated user data based on specified query parameters.
 - **Request Body:**
   - `dateRange` (object): Object containing information about the date range for the query.
@@ -117,7 +120,14 @@
   - **Status Code:** 200 OK
   - **Body:** Aggregated user data in JSON format.
 
-**Example Request Body:**
+---
+**Example of url-encoded query parameters:**
+```
+dateRange[timeUnit]=month&dateRange[previous]=1&aggregationType=total&filters[country]=US
+```
+---
+**Example of decoded query parameters:**
+
 ```javascript
 {
   "dateRange": {
@@ -130,7 +140,7 @@
   }
 }
 ```
-
+---
 **Example Response Body:**
 ```javascript
 [
