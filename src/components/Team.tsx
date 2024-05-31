@@ -89,7 +89,7 @@ export function Team(): JSX.Element {
           />
           <p>Tyler Wenzel</p>
           <ProfileIcons
-            linkedIn="https://linkedin.com/in/tylerwenzel"
+            linkedIn="https://www.linkedin.com/in/tyler-wenzel-5a7326150/"
             personal="https://tylerwenzel.dev"
             github="https://github.com/tyler-wenzel"
             mail="mailto:wenzeltyler9@gmail.com"
