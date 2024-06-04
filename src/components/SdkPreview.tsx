@@ -1,5 +1,5 @@
 import CodeBlock from "@theme/CodeBlock";
-import sdkSnippet from "../../snippets/sdk-home-page";
+import sdkSnippet from "@site/snippets/sdk-home-page";
 import Link from "@docusaurus/Link";
 
 export default function SDKPreview(): JSX.Element {

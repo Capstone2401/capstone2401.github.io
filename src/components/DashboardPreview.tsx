@@ -1,8 +1,8 @@
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.css";
-import dataloafDashboardImage from "/static/img/dataloaf-dashboard-final.png";
-import dataloafFeaturesImage from "/static/img/dataloaf-dashboard-features-final.png";
-import dataloafInfra from "/static/img/dataloaf-infra.png";
+import dataloafDashboardImage from "@site/static/img/dataloaf-dashboard-final.png";
+import dataloafFeaturesImage from "@site/static/img/dataloaf-dashboard-features-final.png";
+import dataloafInfra from "@site/static/img/dataloaf-infra.png";
 
 export default function DashBoardPreview(): JSX.Element {
   const thumbs = [
