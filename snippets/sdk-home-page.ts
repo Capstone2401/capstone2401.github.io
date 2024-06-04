@@ -1,5 +1,5 @@
 const code = `
-import loafSDK from "dataloaf";
+import loafSDK from "@data-loaf/node-sdk";
 
 const loaf = loafSDK.init(
   "https://a23jnafn2nnlasfd.loaf-api-gateway.us-east-1.amazonaws.com/bake-stage"
