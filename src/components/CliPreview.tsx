@@ -1,3 +1,5 @@
+import DocsLink from "./DocsLink";
+
 export default function CliPreview(): JSX.Element {
   return (
     <div className="-z-20 flex md:flex-row flex-col dark:border-none justify-center items-center gap-16 py-20 px-10 bg-zinc-100 dark:bg-zinc-900">
@@ -22,7 +24,7 @@ export default function CliPreview(): JSX.Element {
         </div>
         <div>
           <p>CLI Technologies:</p>
-          <ul className="flex list-none gap-2 px-0 pt-5 m-0">
+          <ul className="flex list-none gap-2 px-0 py-5 m-0">
             <li>
               <img
                 src={require("/static/img/gopher.png").default}
@@ -56,6 +58,7 @@ export default function CliPreview(): JSX.Element {
               />
             </li>
           </ul>
+          <DocsLink text="Check out the CLI" link="/docs/api/cli" />
         </div>
       </div>
     </div>
